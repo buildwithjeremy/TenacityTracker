@@ -92,11 +92,25 @@ This is a full-stack web application built for Team Tenacious to track and manag
 - **Session Storage**: In-memory storage (development), scalable storage needed for production
 - **External APIs**: Environment variables for Zapier webhooks and EZTexting API keys
 
+## Recent Changes
+
+✓ **Navigation System** (June 24, 2025)
+- Built out complete bottom navigation with dedicated pages for Reps, Add Rep, and Activity
+- Created role-based filtering for all pages (admin vs trainer permissions)
+- Fixed duplicate close buttons in modals
+
+✓ **Rep Checklist Bug Fixes** (June 24, 2025)
+- Fixed critical subtask checkbox functionality for new representatives
+- Resolved premature step completion issue where steps completed before all subtasks were done
+- Updated state management to properly create milestone data with correct subtask counts
+- Verified functionality across all 13 certification steps
+
 ## Changelog
 
 ```
 Changelog:
-- June 24, 2025. Initial setup
+- June 24, 2025. Initial setup and navigation system
+- June 24, 2025. Rep checklist functionality fixes
 ```
 
 ## User Preferences
