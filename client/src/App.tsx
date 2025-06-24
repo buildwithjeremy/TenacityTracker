@@ -11,6 +11,9 @@ import RoleSelectorPage from "@/pages/role-selector";
 import TrainerDashboard from "@/pages/trainer-dashboard";
 import AdminDashboard from "@/pages/admin-dashboard";
 import RepChecklistPage from "@/pages/rep-checklist";
+import RepsPage from "@/pages/reps";
+import AddRepPage from "@/pages/add-rep";
+import ActivityPage from "@/pages/activity";
 
 // Layout Components
 import TopNav from "@/components/navigation/top-nav";
@@ -24,6 +27,9 @@ function Router() {
       <Route path="/trainer-dashboard" component={TrainerDashboard} />
       <Route path="/admin-dashboard" component={AdminDashboard} />
       <Route path="/rep/:id" component={RepChecklistPage} />
+      <Route path="/reps" component={RepsPage} />
+      <Route path="/add-rep" component={AddRepPage} />
+      <Route path="/activity" component={ActivityPage} />
       <Route component={AuthPage} />
     </Switch>
   );

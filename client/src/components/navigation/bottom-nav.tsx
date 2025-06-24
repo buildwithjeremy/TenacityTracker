@@ -19,13 +19,13 @@ export default function BottomNav({ activeTab }: BottomNavProps) {
         navigate(dashboardPath);
         break;
       case 'reps':
-        // TODO: Implement dedicated reps view
+        navigate('/reps');
         break;
       case 'add':
-        // This will be handled by parent components opening the modal
+        navigate('/add-rep');
         break;
       case 'activity':
-        // TODO: Implement activity/audit log view
+        navigate('/activity');
         break;
     }
   };

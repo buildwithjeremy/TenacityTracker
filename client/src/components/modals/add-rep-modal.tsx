@@ -115,14 +115,6 @@ export default function AddRepModal({ isOpen, onClose, userRole }: AddRepModalPr
           <DialogTitle className="text-xl font-heading font-semibold text-gray-900">
             Add New Rep
           </DialogTitle>
-          <Button
-            onClick={handleClose}
-            variant="ghost"
-            size="sm"
-            className="absolute right-4 top-4 text-gray-400 hover:text-gray-600 p-2"
-          >
-            <X size={16} />
-          </Button>
         </DialogHeader>
         
         <form onSubmit={handleSubmit} className="space-y-4">
