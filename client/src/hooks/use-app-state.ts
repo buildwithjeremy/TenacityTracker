@@ -107,8 +107,37 @@ function appReducer(state: AppState, action: AppAction): AppState {
         if (rep.id !== repId) return rep;
 
         const milestones = Array.isArray(rep.milestones) ? rep.milestones : [];
+        let existingMilestone = milestones.find((m: any) => m.stepId === stepId);
+        
+        // If milestone doesn't exist for this step, we need to create it
+        if (!existingMilestone) {
+          // Create a basic milestone structure - the actual step data will come from the checklist JSON
+          existingMilestone = {
+            stepId: stepId,
+            title: `Step ${stepId}`,
+            completed: false,
+            subTasks: []
+          };
+          milestones.push(existingMilestone);
+        }
+
         const updatedMilestones = milestones.map((milestone: any) => {
           if (milestone.stepId !== stepId) return milestone;
+
+          // Ensure subTasks array exists
+          if (!milestone.subTasks) {
+            milestone.subTasks = [];
+          }
+
+          // Check if the subtask exists, if not create it
+          let taskExists = milestone.subTasks.find((task: any) => task.taskId === taskId);
+          if (!taskExists) {
+            milestone.subTasks.push({
+              taskId: taskId,
+              description: `Task ${taskId}`,
+              completed: false,
+            });
+          }
 
           const updatedSubTasks = milestone.subTasks.map((task: any) => {
             if (task.taskId !== taskId) return task;
