@@ -109,16 +109,55 @@ function appReducer(state: AppState, action: AppAction): AppState {
         const milestones = Array.isArray(rep.milestones) ? rep.milestones : [];
         let existingMilestone = milestones.find((m: any) => m.stepId === stepId);
         
-        // If milestone doesn't exist for this step, we need to create it
+        // If milestone doesn't exist for this step, we need to create it with all subtasks
         if (!existingMilestone) {
-          // Create a basic milestone structure - the actual step data will come from the checklist JSON
-          existingMilestone = {
-            stepId: stepId,
-            title: `Step ${stepId}`,
-            completed: false,
-            subTasks: []
+          // Create milestone with proper structure based on step
+          const createMilestoneForStep = (stepId: number) => {
+            const stepData = {
+              1: { title: "Welcome & Onboarding", subTasks: ["1-1", "1-2", "1-3"] },
+              2: { title: "Basic Training", subTasks: ["2-1", "2-2"] },
+              3: { title: "Product Knowledge", subTasks: ["3-1", "3-2"] },
+              4: { title: "Field Observation", subTasks: ["4-1", "4-2", "4-3"] },
+              5: { title: "First Sales Attempt", subTasks: ["5-1", "5-2"] },
+              6: { title: "Sales Skills Development", subTasks: ["6-1", "6-2", "6-3"] },
+              7: { title: "Customer Interaction", subTasks: ["7-1", "7-2"] },
+              8: { title: "Independent Practice", subTasks: ["8-1", "8-2", "8-3"] },
+              9: { title: "Performance Review", subTasks: ["9-1", "9-2"] },
+              10: { title: "Advanced Techniques", subTasks: ["10-1", "10-2", "10-3"] },
+              11: { title: "Leadership Training", subTasks: ["11-1", "11-2"] },
+              12: { title: "Final Assessment", subTasks: ["12-1", "12-2", "12-3"] },
+              13: { title: "Field Trainer Certification", subTasks: ["13-1", "13-2"] }
+            };
+            
+            const step = stepData[stepId as keyof typeof stepData];
+            if (!step) return null;
+            
+            return {
+              stepId: stepId,
+              title: step.title,
+              completed: false,
+              subTasks: step.subTasks.map(taskId => ({
+                taskId: taskId,
+                description: `Task ${taskId}`,
+                completed: false,
+              }))
+            };
           };
-          milestones.push(existingMilestone);
+          
+          const newMilestone = createMilestoneForStep(stepId);
+          if (newMilestone) {
+            existingMilestone = newMilestone;
+            milestones.push(existingMilestone);
+          } else {
+            // Fallback for unknown steps
+            existingMilestone = {
+              stepId: stepId,
+              title: `Step ${stepId}`,
+              completed: false,
+              subTasks: []
+            };
+            milestones.push(existingMilestone);
+          }
         }
 
         const updatedMilestones = milestones.map((milestone: any) => {
@@ -129,9 +168,10 @@ function appReducer(state: AppState, action: AppAction): AppState {
             milestone.subTasks = [];
           }
 
-          // Check if the subtask exists, if not create it
+          // Subtasks should already exist from milestone creation, but double-check
           let taskExists = milestone.subTasks.find((task: any) => task.taskId === taskId);
           if (!taskExists) {
+            // This shouldn't happen if milestone was created properly, but handle it gracefully
             milestone.subTasks.push({
               taskId: taskId,
               description: `Task ${taskId}`,
